@@ -6,8 +6,14 @@ const HOLD = false;
 $(document).ready(function () {
     window.time = 3000;
     window.state = INHALE;
+    window.paused = false;
     updateLabel();
     setNext();
+});
+
+$(document).click(function () {
+    window.paused = !window.paused;
+    updateLabel();
 });
 
 function toggleState() {
@@ -16,11 +22,13 @@ function toggleState() {
 
 function updateLabel() {
     let decimals = 1;
-    $('.time-label').text(Math.round((Math.pow(10, decimals) * (window.time * 3)) / 1000) / Math.pow(10, decimals));
+    let p = window.paused ? 'paused: ' : '';
+    $('.time-label').text(p + Math.round((Math.pow(10, decimals) * (window.time * 3)) / 1000) / Math.pow(10, decimals));
 }
 
 function increaseTime() {
-    window.time += 700;
+    if (paused) return;
+    window.time += 1000;
     updateLabel();
 }
 
